@@ -1,0 +1,23 @@
+meta {
+  name: update-product
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseURL}}/products/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 1
+}
+
+body:json {
+  {
+    "name": "Updated Product",
+    "price": 149.99,
+    "status": "inactive"
+  }
+}

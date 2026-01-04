@@ -1,0 +1,19 @@
+meta {
+  name: create-product
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseURL}}/products
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "New Product",
+    "price": 99.99,
+    "status": "active"
+  }
+}

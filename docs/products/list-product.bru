@@ -1,0 +1,88 @@
+meta {
+  name: list-product
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseURL}}/products
+  body: none
+  auth: none
+}
+
+params:query {
+  ~page: 1
+  ~limit: 20
+  ~sort: created_at
+  ~order: desc
+  ~q: search term
+  ~filter: {"price": {"operator": ">", "value": 100}}
+  ~relations: 
+}
+
+docs {
+  ## List Products with Filtering & Search
+  
+  ### Query Parameters:
+  
+  **Pagination:**
+  - `page` - Page number (default: 1)
+  - `limit` - Items per page (default: 20)
+  - `sort` - Sort field (default: created_at)
+  - `order` - Sort order: asc/desc (default: desc)
+  
+  **Global Search:**
+  - `q` - Search across searchable fields (name, status)
+    - Example: `?q=Sample` searches both name and status fields
+  
+  **Advanced Filtering (JSON):**
+  - `filter` - JSON object with field filters
+  
+  ### Filter Examples:
+  
+  **Simple Equality:**
+  ```
+  ?filter={"status": "active"}
+  ```
+  
+  **Operators (>, <, >=, <=, !=):**
+  ```
+  ?filter={"price": {"operator": ">", "value": 100}}
+  ?filter={"price": {"operator": "<=", "value": 500}}
+  ```
+  
+  **LIKE Search:**
+  ```
+  ?filter={"name": {"function": "like", "value": "Product"}}
+  ```
+  
+  **IN Clause:**
+  ```
+  ?filter={"status": {"function": "in", "value": "active,pending"}}
+  ```
+  
+  **BETWEEN:**
+  ```
+  ?filter={"price": {"function": "between", "value": "100,500"}}
+  ```
+  
+  **Date Filtering:**
+  ```
+  ?filter={"created_at": {"function": "date", "operator": "=", "value": "2026-01-04"}}
+  ```
+  
+  **Multiple Filters:**
+  ```
+  ?filter={"status": "active", "price": {"operator": ">", "value": 100}}
+  ```
+  
+  **Combine Search + Filter + Sort:**
+  ```
+  ?q=Product&filter={"status": "active"}&sort=price&order=asc&page=1&limit=10
+  ```
+  
+  ### Searchable Fields:
+  - name
+  - status
+}
+
