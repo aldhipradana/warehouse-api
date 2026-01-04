@@ -127,6 +127,22 @@ go build -trimpath -ldflags="-s -w" -o warehouse-api.exe .
 
 The resulting binary is self-contained and can be deployed directly to your server.
 
+### Deployment
+
+After uploading the binary to your server, make it executable:
+
+```bash
+chmod u+x $HOME/www/warehouse-api/warehouse-api-linux
+```
+
+Then run the application:
+```bash
+cd $HOME/www/warehouse-api
+./warehouse-api-linux
+```
+
+Make sure your `config.toml` file is in the same directory as the binary.
+
 ### Configuration
 
 The application uses a `config.toml` file for configuration. Create or modify it in the root directory:
