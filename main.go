@@ -48,6 +48,15 @@ func main() {
 
 	r := gin.Default()
 	r.Use(middleware.ActionLogger())
+
+	// Health check endpoint
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+			"status":  "ok",
+		})
+	})
+
 	routes.RegisterRoutes(r, db)
 
 	r.Run(cfg.Server.GetServerAddress())
