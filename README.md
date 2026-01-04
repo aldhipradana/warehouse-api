@@ -33,6 +33,9 @@ restful/
   controller.go     # Generic controller logic
   interface.go
   scopes.go
+routes/
+  api.go            # Main route entry point
+  product.go        # Product-specific routes
 ```
 
 ### Key Files
