@@ -102,6 +102,31 @@ routes/
 
 5. The API will be available at http://localhost:8080.
 
+### Building for Production
+
+To build the application for deployment:
+
+**For Linux (AMD64):**
+```powershell
+$env:GOOS="linux"
+$env:GOARCH="amd64"
+$env:CGO_ENABLED="0"
+go build -trimpath -ldflags="-s -w" -o warehouse-api-linux .
+```
+
+**For Windows:**
+```powershell
+go build -trimpath -ldflags="-s -w" -o warehouse-api.exe .
+```
+
+**Build flags explained:**
+- `CGO_ENABLED=0`: Disables CGO for static binary (no external dependencies)
+- `-trimpath`: Removes file system paths from the binary
+- `-ldflags="-s -w"`: Strips debug information to reduce binary size
+- `-o warehouse-api-linux`: Output filename
+
+The resulting binary is self-contained and can be deployed directly to your server.
+
 ### Configuration
 
 The application uses a `config.toml` file for configuration. Create or modify it in the root directory:
