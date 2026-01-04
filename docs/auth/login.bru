@@ -1,0 +1,50 @@
+meta {
+  name: login
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseURL}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "admin@example.com",
+    "password": "admin123"
+  }
+}
+
+docs {
+  ## User Login
+  
+  Authenticates a user and returns a JWT token.
+  
+  ### Request Body:
+  - `email` (required) - User's email address
+  - `password` (required) - User's password
+  
+  ### Response:
+  ```json
+  {
+    "message": "Login successful",
+    "user": {
+      "id": 1,
+      "name": "Admin User",
+      "email": "admin@example.com",
+      "role": "admin"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+  ```
+  
+  ### Test Credentials (After Seeding):
+  - Admin: admin@example.com / admin123
+  - User: john@example.com / password123
+  
+  ### Errors:
+  - 400 Bad Request - Invalid input format
+  - 401 Unauthorized - Invalid credentials
+}

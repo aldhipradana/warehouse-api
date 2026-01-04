@@ -18,9 +18,14 @@ func main() {
 
 	// Ensure tables exist
 	log.Println("Migrating database...")
-	db.AutoMigrate(&models.Product{})
+	db.AutoMigrate(&models.Product{}, &models.User{})
 
-	// Run Seeder
+	// Run Seeders
+	log.Println("Seeding users...")
+	if err := seed.SeedUsers(db); err != nil {
+		log.Fatal("failed to seed users:", err)
+	}
+
 	log.Println("Seeding products...")
 	if err := seed.SeedProducts(db); err != nil {
 		log.Fatal("failed to seed products:", err)

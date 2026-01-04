@@ -1,0 +1,43 @@
+meta {
+  name: get-current-user
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseURL}}/auth/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+docs {
+  ## Get Current User
+  
+  Returns the authenticated user's profile information.
+  
+  ### Authentication:
+  Requires a valid JWT token in the Authorization header:
+  ```
+  Authorization: Bearer <token>
+  ```
+  
+  ### Response:
+  ```json
+  {
+    "user": {
+      "id": 1,
+      "name": "Admin User",
+      "email": "admin@example.com",
+      "role": "admin"
+    }
+  }
+  ```
+  
+  ### Errors:
+  - 401 Unauthorized - Missing or invalid token
+  - 404 Not Found - User not found
+}

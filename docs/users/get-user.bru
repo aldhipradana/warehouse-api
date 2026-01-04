@@ -1,0 +1,44 @@
+meta {
+  name: get-user
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseURL}}/users/1
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+docs {
+  ## Get User by ID (Admin Only)
+  
+  Retrieves a specific user by their ID.
+  
+  ### Authentication:
+  Requires a valid JWT token with **admin** role.
+  
+  ### Path Parameters:
+  - `id` - User ID
+  
+  ### Response:
+  ```json
+  {
+    "id": 1,
+    "name": "Admin User",
+    "email": "admin@example.com",
+    "role": "admin",
+    "created_at": "2026-01-04T10:00:00Z",
+    "updated_at": "2026-01-04T10:00:00Z"
+  }
+  ```
+  
+  ### Errors:
+  - 401 Unauthorized - Missing or invalid token
+  - 403 Forbidden - User is not an admin
+  - 404 Not Found - User not found
+}

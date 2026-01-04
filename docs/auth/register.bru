@@ -1,0 +1,49 @@
+meta {
+  name: register
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseURL}}/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password123"
+  }
+}
+
+docs {
+  ## Register a New User
+  
+  Creates a new user account and returns a JWT token.
+  
+  ### Request Body:
+  - `name` (required) - Full name of the user
+  - `email` (required) - Valid email address
+  - `password` (required) - Password (minimum 6 characters)
+  - `role` (optional) - User role (default: "user")
+  
+  ### Response:
+  ```json
+  {
+    "message": "User registered successfully",
+    "user": {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "role": "user"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+  ```
+  
+  ### Errors:
+  - 400 Bad Request - Invalid input data
+  - 409 Conflict - Email already registered
+}

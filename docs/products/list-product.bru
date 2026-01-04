@@ -5,16 +5,20 @@ meta {
 }
 
 get {
-  url: {{baseURL}}/products
+  url: {{baseURL}}/products?limit=5&order=desc&page=2
   body: none
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
 }
 
 params:query {
-  ~page: 1
-  ~limit: 20
+  limit: 5
+  order: desc
+  page: 2
   ~sort: created_at
-  ~order: desc
   ~q: search term
   ~filter: {"price": {"operator": ">", "value": 100}}
   ~relations: 
@@ -85,4 +89,3 @@ docs {
   - name
   - status
 }
-

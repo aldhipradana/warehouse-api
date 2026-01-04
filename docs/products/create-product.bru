@@ -7,7 +7,11 @@ meta {
 post {
   url: {{baseURL}}/products
   body: json
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
 }
 
 body:json {
@@ -16,4 +20,22 @@ body:json {
     "price": 99.99,
     "status": "active"
   }
+}
+
+docs {
+  ## Create Product
+  
+  Creates a new product in the system.
+  
+  ### Authentication:
+  Requires a valid JWT token.
+  
+  ### Request Body:
+  - `name` (required) - Product name
+  - `price` (required) - Product price
+  - `status` (required) - Product status (e.g., active, inactive)
+  
+  ### Errors:
+  - 401 Unauthorized - Missing or invalid token
+  - 400 Bad Request - Invalid input data
 }

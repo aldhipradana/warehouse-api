@@ -1,4 +1,6 @@
-test.db
-# ignore log
+*.db
+
+*.toml
+
 log 
 log/*.log

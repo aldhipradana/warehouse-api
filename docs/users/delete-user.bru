@@ -1,0 +1,39 @@
+meta {
+  name: delete-user
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseURL}}/users/1
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+docs {
+  ## Delete User (Admin Only)
+  
+  Permanently deletes a user from the system.
+  
+  ### Authentication:
+  Requires a valid JWT token with **admin** role.
+  
+  ### Path Parameters:
+  - `id` - User ID to delete
+  
+  ### Response:
+  ```json
+  {
+    "message": "User deleted successfully"
+  }
+  ```
+  
+  ### Errors:
+  - 401 Unauthorized - Missing or invalid token
+  - 403 Forbidden - User is not an admin
+  - 404 Not Found - User not found
+}

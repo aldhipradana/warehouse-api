@@ -1,0 +1,88 @@
+meta {
+  name: list-users
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseURL}}/users?page=1&limit=10
+  body: none
+  auth: bearer
+}
+
+params:query {
+  page: 1
+  limit: 10
+  ~sort: created_at
+  ~order: desc
+  ~q: search term
+  ~filter: {"role": "admin"}
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+docs {
+  ## List All Users (Admin Only)
+  
+  Returns a paginated list of all users with filtering and search capabilities.
+  
+  ### Authentication:
+  Requires a valid JWT token with **admin** role.
+  
+  ### Query Parameters:
+  
+  **Pagination:**
+  - `page` - Page number (default: 1)
+  - `limit` - Items per page (default: 20)
+  
+  **Sorting:**
+  - `sort` - Field to sort by (default: created_at)
+  - `order` - Sort order: `asc` or `desc` (default: desc)
+  
+  **Search:**
+  - `q` - Global search across name, email, and role
+  
+  **Filters:**
+  - `filter` - JSON object for advanced filtering
+  
+  ### Filter Examples:
+  
+  **By Role:**
+  ```
+  ?filter={"role": "admin"}
+  ```
+  
+  **By Email (LIKE):**
+  ```
+  ?filter={"email": {"function": "like", "value": "example.com"}}
+  ```
+  
+  **Multiple Roles (IN):**
+  ```
+  ?filter={"role": {"function": "in", "value": "admin,manager"}}
+  ```
+  
+  ### Response:
+  ```json
+  {
+    "data": [
+      {
+        "id": 1,
+        "name": "Admin User",
+        "email": "admin@example.com",
+        "role": "admin",
+        "created_at": "2026-01-04T10:00:00Z"
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "limit": 10
+  }
+  ```
+  
+  ### Errors:
+  - 401 Unauthorized - Missing or invalid token
+  - 403 Forbidden - User is not an admin
+}

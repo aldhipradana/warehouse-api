@@ -9,7 +9,13 @@ import (
 func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
 	api := r.Group("/api")
 	{
+		// Authentication routes (public)
+		RegisterAuthRoutes(api, db)
+
+		// User management routes (protected)
+		RegisterUserRoutes(api, db)
+
+		// Product routes (all protected)
 		RegisterProductRoutes(api, db)
-		// RegisterCategoryRoutes(api, db) // Example of adding another model
 	}
 }

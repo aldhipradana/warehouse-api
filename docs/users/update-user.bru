@@ -1,0 +1,58 @@
+meta {
+  name: update-user
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseURL}}/users/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+body:json {
+  {
+    "name": "Updated Name",
+    "email": "updated@example.com"
+  }
+}
+
+docs {
+  ## Update User
+  
+  Updates a user's information. Any authenticated user can update their own profile.
+  
+  ### Authentication:
+  Requires a valid JWT token.
+  
+  ### Path Parameters:
+  - `id` - User ID to update
+  
+  ### Request Body:
+  - `name` (optional) - User's full name
+  - `email` (optional) - User's email address
+  - `role` (optional) - User's role (admin only can change this)
+  
+  **Note:** Users can only update their own profile unless they are admins.
+  
+  ### Response:
+  ```json
+  {
+    "id": 1,
+    "name": "Updated Name",
+    "email": "updated@example.com",
+    "role": "user",
+    "created_at": "2026-01-04T10:00:00Z",
+    "updated_at": "2026-01-04T15:30:00Z"
+  }
+  ```
+  
+  ### Errors:
+  - 400 Bad Request - Invalid input data
+  - 401 Unauthorized - Missing or invalid token
+  - 404 Not Found - User not found
+}
