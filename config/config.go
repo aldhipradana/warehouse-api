@@ -2,7 +2,9 @@ package config
 
 import (
 	"fmt"
+	"net"
 	"os"
+	"strconv"
 
 	"github.com/pelletier/go-toml/v2"
 )
@@ -14,8 +16,9 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	Port  int  `toml:"port"`
-	Debug bool `toml:"debug"`
+	Host  string `toml:"host"` // optional; can be empty in toml
+	Port  int    `toml:"port"`
+	Debug bool   `toml:"debug"`
 }
 
 type DatabaseConfig struct {
@@ -65,7 +68,23 @@ func (c *DatabaseConfig) GetDSN() string {
 	}
 }
 
-// GetServerAddress returns the server address with port
 func (c *ServerConfig) GetServerAddress() string {
-	return fmt.Sprintf(":%d", c.Port)
+	// alwaysdata: must listen on provided IP/HOST + PORT. [web:1][web:6]
+	host := os.Getenv("HOST")
+	if host == "" {
+		host = os.Getenv("IP")
+	}
+	if host == "" {
+		host = c.Host
+	}
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = strconv.Itoa(c.Port)
+	}
+
+	if host != "" {
+		return net.JoinHostPort(host, port)
+	}
+	return ":" + port
 }
