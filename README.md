@@ -17,6 +17,11 @@ This is a RESTful API built with Go, Gin, and GORM for managing products. It sup
 .gitignore
 go.mod
 main.go
+database/
+  seed/
+    main/
+      main.go         # Seeder entry point
+    product_seeder.go # Initial data seeder
 docs/
   bruno.json
   environments/
@@ -70,7 +75,12 @@ routes/
    go run main.go
    ```
 
-4. The API will be available at http://localhost:8080.
+4. (Optional) Seed the database:
+   ```bash
+   go run database/seed/main/main.go
+   ```
+
+5. The API will be available at http://localhost:8080.
 
 ### API Endpoints
 
@@ -160,6 +170,3 @@ The docs/ folder contains .bru files for testing the API using [Bruno](https://w
 2. Open the docs/ folder in Bruno.
 3. Run the requests to test the API.
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.

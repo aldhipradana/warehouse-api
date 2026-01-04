@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Setup DB
-	db, _ := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	db, _ := gorm.Open(sqlite.Open("database/test.db"), &gorm.Config{})
 	db.AutoMigrate(&models.Product{})
 
 	r := gin.Default()
