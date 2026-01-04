@@ -10,6 +10,7 @@ This is a RESTful API built with Go, Gin, and GORM for managing products. It sup
 - **Pagination**: Paginated responses with total counts.
 - **Sorting**: Sort results by any field in ascending or descending order.
 - **Relation Loading**: Eager load related data.
+- **Action Logging**: Automatically logs all data-modifying requests (POST, PUT, DELETE) to daily log files with payload and query capture.
 
 ## Project Structure
 
@@ -34,6 +35,10 @@ docs/
     update-product.bru
 models/
   product.go        # Product model definition
+middleware/
+  logger.go         # Action logger middleware
+log/
+  YYYY-MM-DD.log    # Daily action logs
 restful/
   controller.go     # Generic controller logic
   interface.go
@@ -48,6 +53,8 @@ routes/
 - **main.go**: Entry point of the application.
 - **models/product.go**: Defines the Product model.
 - **restful/**: Contains reusable components for controllers, filters, and database operations.
+- **middleware/**: Contains the `ActionLogger` for tracking API changes.
+- **log/**: Stores daily log files capturing request details, queries, and payloads.
 - **docs/**: Contains API documentation and test cases in .bru format.
 
 ## Getting Started
@@ -169,4 +176,24 @@ The docs/ folder contains .bru files for testing the API using [Bruno](https://w
 1. Install Bruno.
 2. Open the docs/ folder in Bruno.
 3. Run the requests to test the API.
+
+## Logging
+
+The application includes a custom middleware that logs every `POST`, `PUT`, and `DELETE` request. 
+
+- **Location**: Logs are saved in the `log/` directory.
+- **Rotation**: A new log file is created for each day (e.g., `2026-01-04.log`).
+- **Content**: Each log entry includes:
+  - Timestamp
+  - HTTP Method and Path
+  - Status Code
+  - Latency (processing time)
+  - Client IP
+  - URL Query Parameters
+  - Request Payload (JSON body)
+
+Example log entry:
+`15:04:05 [ACTION] PUT /api/products/3 | Status: 200 | Latency: 32.1934ms | IP: 127.0.0.1 | Query: none | Payload: {"name": "Updated Product", "price": 149.99}`
+
+
 

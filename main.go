@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/aldhipradana/warehouse-api/middleware"
 	"github.com/aldhipradana/warehouse-api/models"
 	"github.com/aldhipradana/warehouse-api/routes"
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,9 @@ func main() {
 	db.AutoMigrate(&models.Product{})
 
 	r := gin.Default()
+
+	// Use Action Logger Middleware
+	r.Use(middleware.ActionLogger())
 
 	// Register Routes
 	routes.RegisterRoutes(r, db)
